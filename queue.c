@@ -46,6 +46,22 @@ struct entry {
  */
 void enqueue(char *string)
 {
+	struct entry *new=NULL;
+	new=(struct entry*)malloc(sizeof(struct entry));
+
+	int len=strlen(string);
+
+	new->string=NULL;
+
+	new->string=(char*)malloc(sizeof(char)*(len));
+
+	strcpy(new->string, string);
+
+	list_add_tail(&(new->list), &queue);
+
+	//free(new->string);
+
+	//free(new);
 }
 
 
@@ -64,7 +80,23 @@ void enqueue(char *string)
 int dequeue(char *buffer)
 {
 	/* TODO: Implement this function */
-	return 0;
+
+	if(list_empty(&queue)){
+		return -1;
+	}
+	else{
+		struct entry *out=list_first_entry(&queue, struct entry, list);
+
+		strcpy(buffer, out->string);
+
+		free(out->string);
+
+		list_del(&out->list);
+
+		free(out);
+
+		return 0;
+	}
 }
 
 
@@ -78,5 +110,15 @@ int dequeue(char *buffer)
  */
 void dump_queue(void)
 {
+	struct list_head *pos=NULL;
+	struct entry *out=NULL;
+
+	out=(struct entry*)malloc(sizeof(struct entry));
+
+	list_for_each(pos, &queue){
+		out=list_entry(pos, struct entry, list);
+		fprintf(stderr, "%s\n", out->string);	
+	}
+
 	/* TODO: Implement this function */
 }

@@ -35,14 +35,14 @@ unsigned int seed = 0xdfcc230;
 static char *generate_string(char *buffer)
 {
 	char *chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	int len = 1 + random() % (MAX_BUFFER - 2);
+	int len = 1 + rand() % (MAX_BUFFER - 2);
 			/* +1 to prevent null string
 			 * -1 to consider \0 termination char
 			 */
 	int i;
 
 	for (i = 0; i < len; i++) {
-		buffer[i] = chars[random() % strlen(chars)];
+		buffer[i] = chars[rand() % strlen(chars)];
 	}
 	buffer[len] = '\0';
 	return buffer;
@@ -56,7 +56,7 @@ int main(int argc, const char *argv[])
 
 	if (argc != 1) seed = atoi(argv[1]);
 
-	srandom(seed);
+	srand(seed);
 
 	/* Enqueue 4 values */
 	for (i = 0; i < 4; i++) {
